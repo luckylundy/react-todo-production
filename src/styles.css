@@ -1,0 +1,27 @@
+.container {
+  margin: 20px;
+  width: 500px;
+}
+
+button {
+  cursor: pointer;
+}
+
+.input-area {
+  background-color: skyblue;
+  height: 100px;
+}
+
+.incomplete-area {
+  background-color: lightgreen;
+  min-height: 200px;
+}
+
+.complete-area {
+  background-color: lightyellow;
+  min-height: 200px;
+}
+
+.list-row {
+  display: flex;
+}
