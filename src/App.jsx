@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./styles.css";
+import { Todos } from "./components/Todos";
 
 export const App = () => {
   const [title, setTitle] = useState("");
@@ -85,27 +86,13 @@ export const App = () => {
             <button onClick={AddTodo}>追加</button>
           </div>
         )}
-        <div className="todo-area">
-          <h2>TODO一覧</h2>
-          <ul>
-            {todos.map((todo, index) => {
-              return (
-                <div key={todo.id} className="list-row">
-                  <li>{todo.title}</li>
-                  <select onClick={onClickOpen}>
-                    {filterOptions.map(({ value, label }) => (
-                      <option value={value}>{label}</option>
-                    ))}
-                  </select>
-                  <button onClick={() => onClickOpenEditForm(todo)}>
-                    編集
-                  </button>
-                  <button onClick={() => onClickDelete(index)}>削除</button>
-                </div>
-              );
-            })}
-          </ul>
-        </div>
+        <Todos
+          todos={todos}
+          onClickOpen={onClickOpen}
+          filterOptions={filterOptions}
+          onClickOpenEditForm={onClickOpenEditForm}
+          onClickDelete={onClickDelete}
+        />
       </div>
     </>
   );
