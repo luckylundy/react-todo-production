@@ -3,8 +3,16 @@
   width: 500px;
 }
 
+input {
+  margin: 20px 0 0 20px;
+}
+
 button {
   cursor: pointer;
+}
+
+h2 {
+  text-align: center;
 }
 
 .input-area {
@@ -12,13 +20,8 @@ button {
   height: 100px;
 }
 
-.incomplete-area {
+.todo-area {
   background-color: lightgreen;
-  min-height: 200px;
-}
-
-.complete-area {
-  background-color: lightyellow;
   min-height: 200px;
 }
 

@@ -1,38 +1,63 @@
-import React from "react";
+import React, { useState } from "react";
 import "./styles.css";
 
 export const App = () => {
+  const [title, setTitle] = useState("");
+  const [todos, setTodos] = useState([
+    { id: 501, status: "未着手", title: "React" },
+    { id: 502, status: "進行中", title: "Javascript" },
+    { id: 503, status: "完了", title: "Ruby" }
+  ]);
+  const [open, setOpen] = useState(false);
+  const filterOptions = [
+    { value: "all", label: "すべて" },
+    { value: "notStarted", label: "未着手" },
+    { value: "inProgress", label: "作業中" },
+    { value: "done", label: "完了" }
+  ];
+
+  const getValue = (event) => {
+    setTitle(event.target.value);
+  };
+
+  const AddTodo = () => {
+    if (title === "") return;
+    // 変数todoにid,status,titleのプロパティを設定する
+    const todo = { id: todos.length + 1, status: "incompleted", title };
+    setTodos([...todos, todo]);
+    setTitle("");
+  };
+
+  const onClickDelete = (index) => {
+    const newTodos = [...todos];
+    newTodos.splice(index, 1);
+    setTodos(newTodos);
+  };
+
   return (
     <>
       <div className="container">
         <div className="input-area">
-          <input placeholder="TODOを入力" />
-          <button>追加</button>
+          <input value={title} onChange={getValue} placeholder="TODOを入力" />
+          <button onClick={AddTodo}>追加</button>
         </div>
-        <div className="incomplete-area">
-          <h2>未完了のTODO</h2>
+        <div className="todo-area">
+          <h2>TODO一覧</h2>
           <ul>
-            <div className="list-row">
-              <li>aaaa</li>
-              ID:<span>1</span>
-              状態:<span>未着手</span>
-              <button>完了</button>
-              <button>削除</button>
-            </div>
-            <div className="list-row">
-              <li>iiii</li>
-              <button>完了</button>
-              <button>削除</button>
-            </div>
-          </ul>
-        </div>
-        <div className="complete-area">
-          <h2>完了のTODO</h2>
-          <ul>
-            <div className="list-row">
-              <li>uuuu</li>
-              <button>戻す</button>
-            </div>
+            {todos.map((todo, index) => {
+              return (
+                <div key={todo.id} className="list-row">
+                  <li>{todo.title}</li>
+                  <select onClick={(e) => setOpen(!open)}>
+                    {filterOptions.map(({ value, label }) => (
+                      <option value={value}>{label}</option>
+                    ))}
+                  </select>
+                  <button>編集</button>
+                  <button onClick={() => onClickDelete(index)}>削除</button>
+                </div>
+              );
+            })}
           </ul>
         </div>
       </div>
