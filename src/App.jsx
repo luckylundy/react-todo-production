@@ -15,6 +15,9 @@ export const App = () => {
     { value: "inProgress", label: "作業中" },
     { value: "done", label: "完了" }
   ];
+  const [editing, setEditing] = useState(false);
+  const [editId, setEditId] = useState();
+  const [newTitle, setNewTitle] = useState("");
 
   const getValue = (event) => {
     setTitle(event.target.value);
@@ -34,13 +37,54 @@ export const App = () => {
     setTodos(newTodos);
   };
 
+  const onClickOpen = () => {
+    setOpen(!open);
+  };
+
+  const handleChangeEditTodo = (e) => {
+    setNewTitle(e.target.value);
+  };
+
+  const onClickOpenEditForm = ({ id, title }) => {
+    setEditing(true);
+    setEditId(id);
+    setNewTitle(title);
+  };
+
+  const onClickCloseEditForm = () => {
+    setEditing(false);
+    setEditId("");
+  };
+
+  const onClickUpdateTodo = () => {
+    setTodos(
+      [...todos].map((todo) =>
+        todo.id === editId ? { ...todo, title: newTitle } : todo
+      )
+    );
+    setNewTitle("");
+    onClickCloseEditForm();
+  };
+
   return (
     <>
       <div className="container">
-        <div className="input-area">
-          <input value={title} onChange={getValue} placeholder="TODOを入力" />
-          <button onClick={AddTodo}>追加</button>
-        </div>
+        {editing ? (
+          <div className="edit-area">
+            <input
+              value={newTitle}
+              onChange={handleChangeEditTodo}
+              placeholder="TODOを編集"
+            />
+            <button onClick={onClickUpdateTodo}>更新</button>
+            <button onClick={onClickCloseEditForm}>キャンセル</button>
+          </div>
+        ) : (
+          <div className="input-area">
+            <input value={title} onChange={getValue} placeholder="TODOを入力" />
+            <button onClick={AddTodo}>追加</button>
+          </div>
+        )}
         <div className="todo-area">
           <h2>TODO一覧</h2>
           <ul>
@@ -48,12 +92,14 @@ export const App = () => {
               return (
                 <div key={todo.id} className="list-row">
                   <li>{todo.title}</li>
-                  <select onClick={(e) => setOpen(!open)}>
+                  <select onClick={onClickOpen}>
                     {filterOptions.map(({ value, label }) => (
                       <option value={value}>{label}</option>
                     ))}
                   </select>
-                  <button>編集</button>
+                  <button onClick={() => onClickOpenEditForm(todo)}>
+                    編集
+                  </button>
                   <button onClick={() => onClickDelete(index)}>削除</button>
                 </div>
               );

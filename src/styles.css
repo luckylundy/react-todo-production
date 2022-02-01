@@ -20,6 +20,11 @@ h2 {
   height: 100px;
 }
 
+.edit-area {
+  background-color: skyblue;
+  height: 100px;
+}
+
 .todo-area {
   background-color: lightgreen;
   min-height: 200px;
